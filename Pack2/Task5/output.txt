@@ -1,0 +1,44 @@
+This  is  a  simple  test  file  to check the text formatting functionality. The
+program  should break long lines at word boundaries and distribute spaces evenly
+between  words  to  reach  the  80-character  limit.  Short  lines should remain
+unchanged.
+Multiple paragraphs should be handled correctly. Empty lines should be preserved
+as well.
+Let's               test              some              edge              cases:
+verylongwordthatexceedsthelinelimitbutshouldbekepttogether,  normal  words,  and
+combinations of different word lengths.
+
+
+
+Supercalifragilisticexpialidocious  is  a  very  long  word  that should be kept
+intact      even     if     it     exceeds     80     characters.     Similarly,
+pneumonoultramicroscopicsilicovolcanoconiosis  is  another  extremely  long word
+that tests the program's ability to handle words longer than the line limit.
+This      line      contains      a      mix      of     short     words     and
+verylongwordwithoutspacesthatmightcauseproblemsifnothandledcorrectly    by   the
+formatting algorithm.
+
+
+
+Line     with     multiple     spaces     between     words     should     be
+formatted    correctly.
+Tabs	and	other	whitespace	characters	need	proper	handling.
+Special!@#$%^&*()characters  and  punctuation,  should  be  preserved as part of
+words or handled appropriately.
+Line with trailing spaces
+Another with leading    spaces
+Indented line
+
+
+
+The  quick brown fox jumps over the lazy dog. This sentence contains all letters
+of  the  English  alphabet and is useful for testing text formatting algorithms.
+When  broken  into  multiple  lines,  the spaces should be distributed evenly to
+create visually appealing paragraphs.
+In  computer  programming,  text  formatting  is an important task that involves
+adjusting  the  layout of text to meet specific requirements. The algorithm must
+consider  word  boundaries,  punctuation,  and readability while maintaining the
+original content.
+Testing  edge  cases is crucial for robust software. Consider lines with varying
+word  lengths,  special  characters,  and  different  spacing patterns to ensure
+comprehensive coverage.
