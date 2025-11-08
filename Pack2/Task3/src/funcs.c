@@ -408,17 +408,29 @@ int overfprintf(FILE *stream, const char *format, ...) {
             fmt_ptr += 2;
             
         } else {
-            char specifier[3] = { '%', *fmt_ptr, '\0' };
-            int len = vfprintf(stream, specifier, args);
-            if (len < 0) {
+            const char *spec_start = fmt_ptr;
+            while (*fmt_ptr != '\0' && *fmt_ptr != ' ' && *fmt_ptr != '\t' && *fmt_ptr != '\n' && *fmt_ptr != '%') {
+                fmt_ptr++;
+            }
+            
+            size_t spec_len = fmt_ptr - spec_start;
+            
+            if (spec_len < 100) {
+                char specifier[102] = "%";
+                strncat(specifier, spec_start, spec_len);
+                
+                int len = vfprintf(stream, specifier, args);
+                if (len < 0) {
+                    va_end(args);
+                    return -1;
+                }
+                total_chars += len;
+            } else {
                 va_end(args);
                 return -1;
             }
-            total_chars += len;
-            fmt_ptr++;
         }
     }
-    
     va_end(args);
     return total_chars;
 }
@@ -579,15 +591,28 @@ int oversprintf(char *str, const char *format, ...) {
             fmt_ptr += 2;
             
         } else {
-            char specifier[3] = { '%', *fmt_ptr, '\0' };
-            int len = vsprintf(str, specifier, args);
-            if (len < 0) {
+            const char *spec_start = fmt_ptr;
+            while (*fmt_ptr != '\0' && *fmt_ptr != ' ' && *fmt_ptr != '\t' && *fmt_ptr != '\n' && *fmt_ptr != '%') {
+                fmt_ptr++;
+            }
+            
+            size_t spec_len = fmt_ptr - spec_start;
+            
+            if (spec_len < 100) {
+                char specifier[102] = "%";
+                strncat(specifier, spec_start, spec_len);
+                
+                int len = vsprintf(str, specifier, args);
+                if (len < 0) {
+                    va_end(args);
+                    return -1;
+                }
+                str += len;
+                total_chars += len;
+            } else {
                 va_end(args);
                 return -1;
             }
-            str += len;
-            total_chars += len;
-            fmt_ptr++;
         }
     }
     

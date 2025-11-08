@@ -1,4 +1,4 @@
-#include "funcs.h"
+#include "../include/funcs.h"
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
@@ -178,39 +178,33 @@ void test_overfprintf() {
     
     overfprintf(f, "=== ТЕСТОВЫЙ ВЫВОД OVERFPRINTF ===\n\n");
     
-    // Римские цифры
     overfprintf(f, "1. Римские цифры:\n");
     overfprintf(f, "   1999 = %Ro\n", 1999);
     overfprintf(f, "   2024 = %Ro\n", 2024);
     overfprintf(f, "   49   = %Ro\n\n", 49);
     
-    // Цекендорф
     overfprintf(f, "2. Цекендорфово представление:\n");
     overfprintf(f, "   0  = %Zr\n", 0);
     overfprintf(f, "   1  = %Zr\n", 1);
     overfprintf(f, "   4  = %Zr\n", 4);
     overfprintf(f, "   13 = %Zr\n\n", 13);
     
-    // Системы счисления
     overfprintf(f, "3. Системы счисления:\n");
     overfprintf(f, "   255 в 16-чной (нижний): %Cv\n", 255, 16);
     overfprintf(f, "   255 в 16-чной (верхний): %CV\n", 255, 16);
     overfprintf(f, "   -42 в 10-чной: %Cv\n\n", -42, 10);
     
-    // Преобразование из строки
     overfprintf(f, "4. Преобразование из строки:\n");
     overfprintf(f, "   \"ff\" из 16-чной = %to\n", "ff", 16);
     overfprintf(f, "   \"1010\" из 2-чной = %to\n", "1010", 2);
     overfprintf(f, "   \"ABC\" из 16-чной = %TO\n\n", "ABC", 16);
     
-    // Дамп памяти
     overfprintf(f, "5. Дамп памяти:\n");
     overfprintf(f, "   int 42: %mi\n", 42);
     overfprintf(f, "   unsigned int 123: %mu\n", 123);
     overfprintf(f, "   float 3.14: %mf\n", 3.14f);
     overfprintf(f, "   double 123.456: %md\n\n", 123.456);
     
-    // Комбинированные тесты
     overfprintf(f, "6. Комбинированные тесты:\n");
     overfprintf(f, "   Число 20: римское=%Ro, цекендорф=%Zr\n", 20, 20);
     overfprintf(f, "   Число 255: в 2-чной=%Cv, в 16-чной=%CV\n", 255, 2, 255, 16);
@@ -225,7 +219,6 @@ void test_oversprintf() {
     char buffer[512];
     int len;
     
-    // Простые тесты
     len = oversprintf(buffer, "Римские: %Ro", 49);
     printf("%s (длина: %d)\n", buffer, len);
     
@@ -238,15 +231,12 @@ void test_oversprintf() {
     len = oversprintf(buffer, "\"ff\" из 16-чной: %to", "ff", 16);
     printf("%s (длина: %d)\n", buffer, len);
     
-    // Комбинированные тесты
     len = oversprintf(buffer, "Комбо: %Ro, %Zr, %Cv", 20, 20, 255, 16);
     printf("%s (длина: %d)\n", buffer, len);
     
-    // Со стандартными спецификаторами
     len = oversprintf(buffer, "Смешанный: число=%d, римское=%Ro, hex=0x%x", 100, 100, 100);
     printf("%s (длина: %d)\n", buffer, len);
     
-    // Дамп памяти
     len = oversprintf(buffer, "Дамп int 42: %mi", 42);
     printf("%s (длина: %d)\n", buffer, len);
     
@@ -262,7 +252,6 @@ void test_edge_cases() {
     char buffer[64];
     int result;
     
-    // Невалидные параметры
     printf("NULL указатели:\n");
     status_t status = int_to_roman(10, NULL, sizeof(buffer));
     printf("int_to_roman с NULL buffer: %s\n", status == NULL_POINTER ? "NULL_POINTER" : "ERROR");
@@ -270,7 +259,6 @@ void test_edge_cases() {
     status = str_to_int_base("123", 10, 0, NULL);
     printf("str_to_int_base с NULL result: %s\n", status == NULL_POINTER ? "NULL_POINTER" : "ERROR");
     
-    // Невалидные основания
     printf("\nНевалидные основания:\n");
     int_to_base(123, 1, 0, buffer, sizeof(buffer));
     printf("Основание 1: %s (должно быть 10)\n", buffer);
@@ -278,7 +266,6 @@ void test_edge_cases() {
     int_to_base(123, 37, 0, buffer, sizeof(buffer));
     printf("Основание 37: %s (должно быть 10)\n", buffer);
     
-    // Переполнение буфера
     printf("\nПереполнение буфера:\n");
     char small_buffer[1];
     status = int_to_roman(10, small_buffer, sizeof(small_buffer));
@@ -287,7 +274,6 @@ void test_edge_cases() {
     status = uint_to_zeckendorf(10, small_buffer, sizeof(small_buffer));
     printf("Маленький буфер для цекендорфа: %s\n", status == BUFFER_OVERFLOW ? "BUFFER_OVERFLOW" : "ERROR");
     
-    // Невалидные строки
     printf("\nНевалидные строки:\n");
     status = str_to_int_base("", 10, 0, &result);
     printf("Пустая строка: %s\n", status == INVALID_NUMBER ? "INVALID_NUMBER" : "ERROR");
@@ -301,17 +287,159 @@ void test_edge_cases() {
     printf("\n");
 }
 
-int main() {
-    printf("=== КОМПЛЕКСНОЕ ТЕСТИРОВАНИЕ ФУНКЦИЙ ===\n\n");
+void test_extended_format_specifiers() {
+    printf("=== ТЕСТ РАСШИРЕННЫХ СПЕЦИФИКАТОРОВ ФОРМАТА ===\n");
     
+    char buffer[512];
+    int len;
+    
+    printf("1. Спецификаторы с шириной и точностью:\n");
+    len = oversprintf(buffer, "Число: |%8d|", 42);
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Число: |%-8d|", 42);
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Число: |%08d|", 42);
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Дробное: |%8.2f|", 3.14159);
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Строка: |%-10s|", "test");
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    printf("\n2. Спецификаторы с модификаторами типа:\n");
+    len = oversprintf(buffer, "Long: %ld", 123456789L);
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Long long: %lld", 123456789012LL);
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Size_t: %zu", (size_t)1000);
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Pointer: %p", buffer);
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    printf("\n3. Комбинации с пользовательскими спецификаторами:\n");
+    len = oversprintf(buffer, "Римское с шириной: |%Ro| и hex: |%08X|", 49, 255);
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Цекендорф: %Zr, число: %+d, дробное: %.2f", 13, 42, 3.14);
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    printf("\n4. Сложные спецификаторы:\n");
+    len = oversprintf(buffer, "Научная нотация: %e", 1234567.89);
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Шестнадцатеричный float: %a", 3.14);
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Процент: 100%% завершено");
+    printf("%s (длина: %d)\n", buffer, len);
+    
+    printf("\n");
+}
+
+void test_file_extended_formats() {
+    printf("=== ТЕСТ РАСШИРЕННЫХ ФОРМАТОВ В ФАЙЛ ===\n");
+    
+    FILE *f = fopen("extended_test_output.txt", "w");
+    if (f == NULL) {
+        printf("Ошибка открытия файла!\n");
+        return;
+    }
+    
+    overfprintf(f, "=== ТЕСТ РАСШИРЕННЫХ СПЕЦИФИКАТОРОВ ===\n\n");
+    
+    overfprintf(f, "1. Простые спецификаторы:\n");
+    overfprintf(f, "   Число: %d\n", 123);
+    overfprintf(f, "   Строка: %s\n", "test");
+    overfprintf(f, "   Дробное: %f\n", 3.14);
+    
+    overfprintf(f, "\n2. Спецификаторы с шириной:\n");
+    overfprintf(f, "   |%5d|\n", 123);
+    overfprintf(f, "   |%-5d|\n", 123);
+    
+    overfprintf(f, "\n3. С пользовательскими спецификаторами:\n");
+    overfprintf(f, "   Римское: %Ro\n", 49);
+    overfprintf(f, "   Цекендорф: %Zr\n", 20);
+    overfprintf(f, "   Число: %d, система: %Cv\n", 42, 255, 16);
+    
+    overfprintf(f, "\n4. Смешанные форматы:\n");
+    overfprintf(f, "   Комбинация: %Ro | %Zr | %d | %s\n", 
+               2024, 13, 123, "text");
+    
+    fclose(f);
+    printf("Результаты записаны в файл 'extended_test_output.txt'\n\n");
+}
+
+void test_edge_format_cases() {
+    printf("=== ТЕСТ ГРАНИЧНЫХ СЛУЧАЕВ ФОРМАТА ===\n");
+    
+    char buffer[256];
+    int len;
+    
+    printf("1. Пустые и специальные спецификаторы:\n");
+    len = oversprintf(buffer, "Простой текст");
+    printf("Без спецификаторов: '%s' (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Знак процента: 100%%");
+    printf("Знак процента: '%s' (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Двойной процент: 100%%%%");
+    printf("Двойной процент: '%s' (длина: %d)\n", buffer, len);
+    
+    printf("\n2. Спецификаторы на границах:\n");
+    len = oversprintf(buffer, "Начало: %d текст", 123);
+    printf("Спецификатор в начале: '%s' (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Текст в конце: %d", 456);
+    printf("Спецификатор в конце: '%s' (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "%d", 789);
+    printf("Только спецификатор: '%s' (длина: %d)\n", buffer, len);
+    
+    printf("\n3. Множественные спецификаторы:\n");
+    len = oversprintf(buffer, "%d %s %f %Ro %Zr", 42, "test", 3.14, 49, 13);
+    printf("Множественные: '%s' (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "%d%d%d%d", 1, 2, 3, 4);
+    printf("Подряд: '%s' (длина: %d)\n", buffer, len);
+    
+    printf("\n4. Спецификаторы с разными разделителями:\n");
+    len = oversprintf(buffer, "Число:%d\tСтрока:%s\nНовая строка", 123, "text");
+    printf("С разделителями: '%s' (длина: %d)\n", buffer, len);
+    
+    printf("\n5. Длинные сложные спецификаторы:\n");
+    len = oversprintf(buffer, "Формат: %+20.10f", 1234567.8912345);
+    printf("Сложный float: '%s' (длина: %d)\n", buffer, len);
+    
+    len = oversprintf(buffer, "Широкий: %30s", "short");
+    printf("Широкая строка: '%s' (длина: %d)\n", buffer, len);
+    
+    printf("\n");
+}
+
+int main() {
+    printf("=== КОМПЛЕКСНОЕ ТЕСТИРОВАНИЕ ФУНКЦИЙ ===\n\n"); 
+    // Затем основные тесты
     test_roman_numerals();
     test_zeckendorf_correct_order();
     test_base_conversion();
     test_string_to_int();
     test_memory_dump();
+    
+    // Потом более сложные
     test_overfprintf();
     test_oversprintf();
     test_edge_cases();
+    
+    // И только если все работает - расширенные тесты
+    test_extended_format_specifiers();
+    test_file_extended_formats();
+    test_edge_format_cases();
     
     printf("=== ТЕСТИРОВАНИЕ ЗАВЕРШЕНО ===\n");
     

@@ -1,7 +1,7 @@
 CMakeFiles/main.dir/src/funcs.c.o: \
  /home/spr0vay/Documents/Coding/Labs/FUND_Labs/Pack2/Task3/src/funcs.c \
  /usr/include/stdc-predef.h \
- /home/spr0vay/Documents/Coding/Labs/FUND_Labs/Pack2/Task3/include/funcs.h \
+ /home/spr0vay/Documents/Coding/Labs/FUND_Labs/Pack2/Task3/src/../include/funcs.h \
  /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
