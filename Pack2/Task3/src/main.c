@@ -424,19 +424,16 @@ void test_edge_format_cases() {
 
 int main() {
     printf("=== КОМПЛЕКСНОЕ ТЕСТИРОВАНИЕ ФУНКЦИЙ ===\n\n"); 
-    // Затем основные тесты
     test_roman_numerals();
     test_zeckendorf_correct_order();
     test_base_conversion();
     test_string_to_int();
     test_memory_dump();
     
-    // Потом более сложные
     test_overfprintf();
     test_oversprintf();
     test_edge_cases();
     
-    // И только если все работает - расширенные тесты
     test_extended_format_specifiers();
     test_file_extended_formats();
     test_edge_format_cases();
