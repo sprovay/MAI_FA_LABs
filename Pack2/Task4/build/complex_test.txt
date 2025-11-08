@@ -1,0 +1,3 @@
+CML    000011   7F    -123.456   Programming
+XCIX   100101   FF    +987.654   Testing
+MMXXIV 1010011 1A2B3 -42.0000   ComplexSpec
