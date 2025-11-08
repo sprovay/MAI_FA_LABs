@@ -409,9 +409,24 @@ int overfprintf(FILE *stream, const char *format, ...) {
             
         } else {
             const char *spec_start = fmt_ptr;
-            while (*fmt_ptr != '\0' && *fmt_ptr != ' ' && *fmt_ptr != '\t' && *fmt_ptr != '\n') {
+            
+            while (*fmt_ptr != '\0' && 
+                   *fmt_ptr != 'd' && *fmt_ptr != 'i' && *fmt_ptr != 'u' &&
+                   *fmt_ptr != 'o' && *fmt_ptr != 'x' && *fmt_ptr != 'X' &&
+                   *fmt_ptr != 'f' && *fmt_ptr != 'F' && *fmt_ptr != 'e' &&
+                   *fmt_ptr != 'E' && *fmt_ptr != 'g' && *fmt_ptr != 'G' &&
+                   *fmt_ptr != 'a' && *fmt_ptr != 'A' && *fmt_ptr != 'c' &&
+                   *fmt_ptr != 's' && *fmt_ptr != 'p' && *fmt_ptr != 'n' &&
+                   *fmt_ptr != '%') {
                 fmt_ptr++;
             }
+            
+            if (*fmt_ptr == '\0') {
+                va_end(args);
+                return -1;
+            }
+            
+            fmt_ptr++;
             
             size_t spec_len = fmt_ptr - spec_start;
             
@@ -592,10 +607,24 @@ int oversprintf(char *str, const char *format, ...) {
             
         } else {
             const char *spec_start = fmt_ptr;
-            while (*fmt_ptr != '\0' && *fmt_ptr != ' ' && *fmt_ptr != '\t' && *fmt_ptr != '\n') {
+            
+            while (*fmt_ptr != '\0' && 
+                   *fmt_ptr != 'd' && *fmt_ptr != 'i' && *fmt_ptr != 'u' &&
+                   *fmt_ptr != 'o' && *fmt_ptr != 'x' && *fmt_ptr != 'X' &&
+                   *fmt_ptr != 'f' && *fmt_ptr != 'F' && *fmt_ptr != 'e' &&
+                   *fmt_ptr != 'E' && *fmt_ptr != 'g' && *fmt_ptr != 'G' &&
+                   *fmt_ptr != 'a' && *fmt_ptr != 'A' && *fmt_ptr != 'c' &&
+                   *fmt_ptr != 's' && *fmt_ptr != 'p' && *fmt_ptr != 'n' &&
+                   *fmt_ptr != '%') {
                 fmt_ptr++;
             }
             
+            if (*fmt_ptr == '\0') {
+                va_end(args);
+                return -1;
+            }
+            
+            fmt_ptr++;
             size_t spec_len = fmt_ptr - spec_start;
             
             if (spec_len < 100) {
