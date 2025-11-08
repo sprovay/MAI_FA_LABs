@@ -409,7 +409,7 @@ int overfprintf(FILE *stream, const char *format, ...) {
             
         } else {
             const char *spec_start = fmt_ptr;
-            while (*fmt_ptr != '\0' && *fmt_ptr != ' ' && *fmt_ptr != '\t' && *fmt_ptr != '\n' && *fmt_ptr != '%') {
+            while (*fmt_ptr != '\0' && *fmt_ptr != ' ' && *fmt_ptr != '\t' && *fmt_ptr != '\n') {
                 fmt_ptr++;
             }
             
@@ -592,7 +592,7 @@ int oversprintf(char *str, const char *format, ...) {
             
         } else {
             const char *spec_start = fmt_ptr;
-            while (*fmt_ptr != '\0' && *fmt_ptr != ' ' && *fmt_ptr != '\t' && *fmt_ptr != '\n' && *fmt_ptr != '%') {
+            while (*fmt_ptr != '\0' && *fmt_ptr != ' ' && *fmt_ptr != '\t' && *fmt_ptr != '\n') {
                 fmt_ptr++;
             }
             

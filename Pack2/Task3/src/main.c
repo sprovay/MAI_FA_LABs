@@ -440,6 +440,7 @@ int main() {
     test_extended_format_specifiers();
     test_file_extended_formats();
     test_edge_format_cases();
+
     
     printf("=== ТЕСТИРОВАНИЕ ЗАВЕРШЕНО ===\n");
     
